@@ -1,8 +1,20 @@
 ---
 import Layout from "../../layouts/index.astro";
+import { ProjectData } from "../../lib/data";
 ---
 
 <Layout>
-  <h2>projects</h2>
-  <h3>what it do</h3>
+  <div class="flex flex-col gap-1">
+    {
+      ProjectData.map((data) => (
+        <div class="text-xl lowercase mb-4">
+          <a class="hover:opacity-20 transition"href={data.href}>
+            <h1>{data.title}</h1>
+          </a>
+          <p class="text-sm">{data.description}</p>
+        </div>
+      ))
+    }
+  </div>
+
 </Layout>
