@@ -2,13 +2,19 @@
 import Layout from "../layouts/index.astro";
 import { Links } from "../lib/data";
 import { ProjectData } from "../lib/data";
+const allPosts = Object.values(
+  import.meta.glob("./posts/*.md", { eager: true })
+);
 ---
 
 <Layout>
   <div class="space-y-8 max-w-2xl">
     <div>
-      <h2 class="text-2xl mb-12">sup</h2>
-      <p>I'm Jack Faulkner a software engineer from the United Kingdom, England. Currently looking for my next role or challenge.</p>
+      <h2 class="text-2xl mb-12 font-extra">sup</h2>
+      <p class="lowercase mb-4">
+        I'm Jack a software engineer from the United Kingdom, England. Currently
+        looking for my next role or challenge.
+      </p>
     </div>
     <div>
       <h2 class="text-2xl mb-6">projects</h2>
@@ -16,31 +22,79 @@ import { ProjectData } from "../lib/data";
         {
           ProjectData.map((data) => (
             <div class="text-xl lowercase mb-4">
-              <a class="hover:opacity-20 transition"href={data.href}>
-                <h1 class="mb-1.5">{data.title}</h1>
-              </a>
+              <h1 class="mb-1.5">
+                <a class="hover:opacity-20 transition" href={data.href}>
+                  {data.title}
+                </a>
+              </h1>
               <p class="text-sm">{data.description}</p>
             </div>
           ))
         }
       </div>
+      
+      
+        <a class="text-xs hover:opacity-20 flex flex-row gap-1" href="/projects"
+          >see more <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4 ml-1"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+          </svg></a>
+     
     </div>
 
     <div>
-      <h2 class="text-2xl">thoughts</h2>
-      <h3 class="text-lg">what it do</h3>
+      <h2 class="text-2xl mb-6">thoughts</h2>
+      {
+        allPosts.sort((a: any, b: any) => {
+          return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
+        }).slice(0, 4).map((post: any) => (
+          <ul class="list-decimal list-inside mb-4 lowercase">
+            <a class="hover:opacity-15 transition" href={post.url}>{post.frontmatter.title}</a>
+            <div class="text-xs opacity-50 pl-4">
+              <p>{post.frontmatter.description}</p>
+              <p>{post.frontmatter.date.toString().slice(0, 10)}</p>
+            </div>
+          </ul>
+        ))
+      }
+      <a class="text-xs hover:opacity-20 flex flex-row gap-1" href="/thoughts"
+      >see more <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-4 h-4 ml-1"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+      </svg></a>
+ 
     </div>
 
     <div>
       <h4 class="text-xl mb-4">find me somewhere</h4>
       {
         Links.map((link) => (
-          <a
-            href={link.href}
-            class="lowercase text-blue-400 hover:underline text-1xl"
-          >
-            <h1> - {link.title}</h1>
-          </a>
+          <h1>
+            <a
+              href={link.href}
+              class="lowercase text-blue-400 hover:underline text-1xl"
+            >
+              - {link.title}
+            </a>
+          </h1>
         ))
       }
     </div>
