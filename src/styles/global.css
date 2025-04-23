@@ -1,1 +1,14 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* global.css */
+.prose p,
+.prose ul,
+.prose ol,
+.prose pre,
+.prose h1,
+.prose h2,
+.prose h3 {
+  margin-top: 0.2rem !important;
+  margin-bottom: 0.2rem !important;
+}
