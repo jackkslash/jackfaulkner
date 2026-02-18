@@ -118,13 +118,21 @@ a.no-hover:hover {
   border-radius: 0;
 }
 
-/* Theme toggle */
+/* Theme toggle — bottom-right on mobile so it doesn't cover content, top-right on larger screens */
 .theme-toggle {
   position: fixed;
-  top: 0.75rem;
+  bottom: 0.75rem;
   right: 0.75rem;
   width: 2.25rem;
   height: 2.25rem;
+}
+@media (min-width: 768px) {
+  .theme-toggle {
+    bottom: auto;
+    top: 0.75rem;
+  }
+}
+.theme-toggle {
   padding: 0;
   border: 1px solid var(--border);
   border-radius: 0;
