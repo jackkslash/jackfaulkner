@@ -11,45 +11,51 @@ const formattedDate = date.toLocaleDateString("en-GB", {
 ---
 
 <Layout>
-  <div class="flex flex-col max-w-3xl mx-auto prose prose-sm">
-    <h1 class="font-bold text-lg">{frontmatter.title}</h1>
-    <div class="flex flex-row opacity-50 mb-4">
-      <p class="lowercase">{formattedDate} • by <span class="hover:bg-cyan-300 p-0.5">{frontmatter.author}</span></p>
-    </div>
-
-    <slot />
+  <div class="min-h-screen px-6 py-10 md:px-12 md:py-14">
+    <header class="flex flex-row items-center justify-between mb-10">
+      <a href="/thoughts" class="text-sm text-muted hover:text-primary transition-colors">← Thoughts</a>
+      <a href="/" class="text-sm text-muted hover:text-primary transition-colors">Jack Faulkner</a>
+    </header>
+    <article class="prose max-w-xl">
+      <h1 class="text-2xl font-bold text-primary !mt-0">{frontmatter.title}</h1>
+      <p class="text-sm text-muted mb-8">
+        {formattedDate} · {frontmatter.author}
+      </p>
+      <slot />
+      <p class="text-sm text-muted mt-10">
+        <a href="/thoughts" class="hover:text-primary">← Back to thoughts</a>
+      </p>
+    </article>
   </div>
-</Layout>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("pre").forEach((pre) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "relative my-4";
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("pre").forEach((pre) => {
+        const code = pre.querySelector("code");
+        if (!code) return;
 
-      const code = pre.querySelector("code");
-      if (!code) return;
+        const button = document.createElement("button");
+        button.setAttribute("type", "button");
+        button.className = "copy-code-btn absolute top-2 right-2 z-10 text-xs px-2 py-1 rounded transition";
 
-      const button = document.createElement("button");
-      button.className =
-        "absolute top-2 right-2 z-10 text-xs p-1.5 bg-gray-800 text-white rounded hover:bg-gray-700 transition";
+        const copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+        const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        button.innerHTML = copyIcon;
 
-      const copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
-      const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        button.onclick = () => {
+          navigator.clipboard.writeText(code.innerText).then(() => {
+            button.innerHTML = checkIcon;
+            setTimeout(() => (button.innerHTML = copyIcon), 1500);
+          });
+        };
 
-      button.innerHTML = copyIcon;
-
-      button.onclick = () => {
-        navigator.clipboard.writeText(code.innerText).then(() => {
-          button.innerHTML = checkIcon;
-          setTimeout(() => (button.innerHTML = copyIcon), 1500);
-        });
-      };
-
-      if (pre.parentNode) {
-        pre.parentNode.insertBefore(wrapper, pre);
-        wrapper.appendChild(button);
-        wrapper.appendChild(pre);
-      }
+        const wrapper = document.createElement("div");
+        wrapper.className = "relative my-4";
+        if (pre.parentNode) {
+          pre.parentNode.insertBefore(wrapper, pre);
+          wrapper.appendChild(button);
+          wrapper.appendChild(pre);
+        }
+      });
     });
-  });
-</script>
+  </script>
+</Layout>

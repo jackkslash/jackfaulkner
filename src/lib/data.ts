@@ -9,6 +9,29 @@ export interface Project {
     title: string;
     href: string;
   }
+
+  export interface SkillCategory {
+    name: string;
+    items: string[];
+  }
+
+  export interface WorkEntry {
+    company: string;
+    role: string;
+    period: string;
+    href?: string;
+  }
+
+  export const WorkData: WorkEntry[] = [
+    { company: "Dines", role: "Backend Engineer", period: "Nov 2025 – Present" },
+    // Add past roles as needed, e.g.:
+    // { company: "Previous Co", role: "Software Engineer", period: "2022 – 2024", href: "https://..." },
+  ];
+
+  export const SkillData: SkillCategory[] = [
+    { name: "Stack", items: ["Go", "Python", "TypeScript", "Node.js", "PostgreSQL", "Redis", "MongoDB"] },
+    { name: "Infra", items: ["Docker", "AWS", "GitHub Actions"] },
+  ];
   
   export const ProjectData: Project[] = [
     {

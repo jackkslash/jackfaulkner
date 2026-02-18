@@ -4,26 +4,61 @@ import "../styles/global.css";
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/x-icon" href="/public/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "light") document.documentElement.setAttribute("data-theme", "light");
+      } catch (_) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>Jack Faulkner</title>
   </head>
-  <body class="font-mono px-8 py-8 md:px-16 md:py-16">
-    <nav
-      class="flex flex-col gap-4 pb-22 md:flex-row md:items-center md:justify-between md:mx-auto"
-    >
-      <h1><a href="/">jack faulkner</a></h1>
-      <ul class="flex flex-row gap-8">
-        <li>
-          <a href="/projects">projects</a>
-        </li>
-        <li>
-          <a href="/thoughts">thoughts</a>
-        </li>
-
-      </ul>
-    </nav>
+  <body class="min-h-screen">
     <slot />
+
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle light or dark mode" title="Toggle theme">
+      <span class="icon-sun" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+      </span>
+      <span class="icon-moon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
+      </span>
+    </button>
+
+    <script>
+      (function () {
+        const KEY = "theme";
+        const root = document.documentElement;
+
+        function getStored() { return localStorage.getItem(KEY); }
+        function setStored(v) { if (v) localStorage.setItem(KEY, v); else localStorage.removeItem(KEY); }
+
+        function apply(theme) {
+          if (theme === "light") root.setAttribute("data-theme", "light");
+          else root.removeAttribute("data-theme");
+        }
+
+        function init() {
+          const stored = getStored();
+          if (stored === "light" || stored === "dark") {
+            apply(stored);
+          } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+            apply("light");
+          }
+        }
+
+        function toggle() {
+          const isLight = root.getAttribute("data-theme") === "light";
+          const next = isLight ? "dark" : "light";
+          apply(next);
+          setStored(next);
+        }
+
+        init();
+        document.getElementById("theme-toggle")?.addEventListener("click", toggle);
+      })();
+    </script>
   </body>
 </html>

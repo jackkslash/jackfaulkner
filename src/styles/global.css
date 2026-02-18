@@ -1,7 +1,59 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* global.css */
+/* Stark black/white portfolio — backend focus */
+:root {
+  --bg: #000000;
+  --text: #ffffff;
+  --text-muted: #a1a1a1;
+  --border: #2a2a2a;
+  --label: #666666;
+  --link-underline: #ffffff;
+  --prose-bg: #111111;
+}
+
+html[data-theme="light"] {
+  --bg: #fafafa;
+  --text: #1a1a1a;
+  --text-muted: #57606a;
+  --border: #e6e8eb;
+  --label: #656e7a;
+  --link-underline: #0969da;
+  --prose-bg: #f0f0f0;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
+}
+
+a.no-hover:hover {
+  text-decoration: none;
+}
+
+/* Prose for blog / inner pages */
+.prose {
+  color: var(--text);
+}
+
 .prose p,
 .prose ul,
 .prose ol,
@@ -9,6 +61,104 @@
 .prose h1,
 .prose h2,
 .prose h3 {
-  margin-top: 0.2rem !important;
-  margin-bottom: 0.2rem !important;
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
 }
+
+.prose pre {
+  background: var(--prose-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  overflow-x: auto;
+}
+
+.prose code {
+  font-size: 0.9em;
+  background: var(--prose-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+.prose a {
+  text-decoration: underline;
+}
+
+.prose a:hover {
+  opacity: 0.85;
+}
+
+.prose .copy-code-btn {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.prose .copy-code-btn:hover {
+  filter: brightness(0.9);
+}
+.prose .copy-code-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--text);
+}
+
+/* Dines block highlight on Work page */
+.dines-highlight {
+  background-color: #40e0b8;
+  color: #211d2d;
+  padding: 0.1em 0.35em;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  position: fixed;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.theme-toggle:hover {
+  opacity: 0.9;
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+.theme-toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+  position: absolute;
+}
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+html[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+/* Theme-aware text (use instead of hardcoded white/gray) */
+.text-primary { color: var(--text); }
+.text-muted { color: var(--text-muted); }
+.text-label { color: var(--label); }
+

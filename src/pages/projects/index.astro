@@ -4,17 +4,26 @@ import { ProjectData } from "../../lib/data";
 ---
 
 <Layout>
-  <div class="flex flex-col gap-1">
-    {
-      ProjectData.map((data) => (
-        <div class="text-xl lowercase mb-4">
-          <a class="hover:opacity-20 transition w-fit"href={data.href}>
-            <h1>{data.title}</h1>
-          </a>
-          <p class="text-sm opacity-50">{data.description}</p>
-        </div>
-      ))
-    }
+  <div class="min-h-screen px-6 py-10 md:px-12 md:py-14">
+    <header class="flex flex-row items-center justify-between mb-12 md:mb-16">
+      <a href="/" class="text-sm text-muted hover:text-primary transition-colors">← Jack Faulkner</a>
+      <nav class="flex gap-6 text-sm text-muted">
+        <a href="/projects" class="text-primary">Projects</a>
+        <a href="/work" class="hover:text-primary transition-colors">Work</a>
+      </nav>
+    </header>
+    <h1 class="text-2xl font-bold mb-10">Projects</h1>
+    <ul class="flex flex-col gap-8 max-w-xl">
+      {
+        ProjectData.map((data) => (
+          <li>
+            <a href={data.href} target="_blank" rel="noopener noreferrer" class="block group">
+              <span class="text-lg font-medium text-primary group-hover:underline">{data.title}</span>
+              <p class="text-sm text-muted mt-1">{data.description}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
-
 </Layout>
